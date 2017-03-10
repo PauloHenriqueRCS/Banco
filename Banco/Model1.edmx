@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="ClienteSet" EntityType="Model1.Store.ClienteSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContaSet" EntityType="Model1.Store.ContaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContaSet_Corrente" EntityType="Model1.Store.ContaSet_Corrente" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContaSet_Poupanca" EntityType="Model1.Store.ContaSet_Poupanca" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ClienteConta" Association="Model1.Store.ClienteConta">
+      <End Role="Cliente" EntitySet="ClienteSet" />
+      <End Role="Conta" EntitySet="ContaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Corrente_inherits_Conta" Association="Model1.Store.FK_Corrente_inherits_Conta">
+      <End Role="Conta" EntitySet="ContaSet" />
+      <End Role="Corrente" EntitySet="ContaSet_Corrente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Poupanca_inherits_Conta" Association="Model1.Store.FK_Poupanca_inherits_Conta">
+      <End Role="Conta" EntitySet="ContaSet" />
+      <End Role="Poupanca" EntitySet="ContaSet_Poupanca" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ClienteSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Cpf" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Rg" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Idade" Type="smallint" Nullable="false" />
+    <Property Name="Sexo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Nacionalidade" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ContaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Numero" Type="smallint" Nullable="false" />
+    <Property Name="Saldo" Type="float" Nullable="false" />
+    <Property Name="Titular" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ClienteId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ContaSet_Corrente">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ContaSet_Poupanca">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ClienteConta">
+    <End Role="Cliente" Type="Model1.Store.ClienteSet" Multiplicity="1" />
+    <End Role="Conta" Type="Model1.Store.ContaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Conta">
+        <PropertyRef Name="ClienteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Corrente_inherits_Conta">
+    <End Role="Conta" Type="Model1.Store.ContaSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Corrente" Type="Model1.Store.ContaSet_Corrente" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Conta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Corrente">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Poupanca_inherits_Conta">
+    <End Role="Conta" Type="Model1.Store.ContaSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Poupanca" Type="Model1.Store.ContaSet_Poupanca" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Conta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Poupanca">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClienteSet" EntityType="Model1.Cliente" />
+          <EntitySet Name="ContaSet" EntityType="Model1.Conta" />
+          <AssociationSet Name="ClienteConta" Association="Model1.ClienteConta">
+            <End Role="Cliente" EntitySet="ClienteSet" />
+            <End Role="Conta" EntitySet="ContaSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Cpf" Type="String" Nullable="false" />
+          <Property Name="Rg" Type="String" Nullable="false" />
+          <Property Name="Idade" Type="Int16" Nullable="false" />
+          <Property Name="Sexo" Type="String" Nullable="false" />
+          <Property Name="Nacionalidade" Type="String" Nullable="false" />
+          <NavigationProperty Name="Conta" Relationship="Model1.ClienteConta" FromRole="Cliente" ToRole="Conta" />
+        </EntityType>
+        <EntityType Name="Conta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Numero" Type="Int16" Nullable="false" />
+          <Property Name="Saldo" Type="Double" Nullable="false" />
+          <Property Name="Titular" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <NavigationProperty Name="Cliente" Relationship="Model1.ClienteConta" FromRole="Conta" ToRole="Cliente" />
+          <Property Name="ClienteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Corrente" BaseType="Model1.Conta" />
+        <EntityType Name="Poupanca" BaseType="Model1.Conta" />
+        <Association Name="ClienteConta">
+          <End Type="Model1.Cliente" Role="Cliente" Multiplicity="1" />
+          <End Type="Model1.Conta" Role="Conta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conta">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="ClienteSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Cliente)">
+        <MappingFragment StoreEntitySet="ClienteSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Cpf" ColumnName="Cpf" />
+          <ScalarProperty Name="Rg" ColumnName="Rg" />
+          <ScalarProperty Name="Idade" ColumnName="Idade" />
+          <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+          <ScalarProperty Name="Nacionalidade" ColumnName="Nacionalidade" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ContaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Conta)">
+        <MappingFragment StoreEntitySet="ContaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Titular" ColumnName="Titular" />
+          <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Corrente)">
+        <MappingFragment StoreEntitySet="ContaSet_Corrente">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Poupanca)">
+        <MappingFragment StoreEntitySet="ContaSet_Poupanca">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
