@@ -13,49 +13,21 @@ namespace Banco
 {
     public partial class CadastroConta : Form
     {
-        private const string conexao = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\BancoDB.mdf;Integrated Security = True";
-        private List<Conta> contas = new List<Conta>();
-        private List<Cliente> clientes = new List<Cliente>();
-        private Conta conta;
-        private Cliente cliente;
         public CadastroConta()
         {
             InitializeComponent();
         }
-
-        private SqlConnection Conectar()
-        {
-            SqlConnection conn = new SqlConnection(conexao);
-            conn.Open();
-            return conn;
-        }
-
         private void CadastroConta_Load(object sender, EventArgs e)
         {
-            var conn = Conectar();
-            SqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT TITULAR, NUMERO, SALDO FROM CONTA";
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Conta conta = new Conta();  
-                conta.Id = Convert.ToInt16(reader["IDCONTA"]);
-                conta.Titular = reader["TITULAR"].ToString();
-                conta.Numero =  Convert.ToInt16(reader["NUMERO"]);
-                conta.Saldo = Convert.ToDouble(reader["SALDO"].ToString());
-                contas.Add(conta);
-            }              
-            conn.Close();
+            CommandSQL.SelectConta();
         }
-
         private void ClearFull()
         {
-   
+
             titularCContatextBox.Text = "";
             numeroCContatextBox.Text = "";
             saldoCContatextBox.Text = "";
         }
-
         private void cadastraContabutton_Click(object sender, EventArgs e)
         {
             if (titularCContatextBox.Text == "" || numeroCContatextBox.Text == "" || saldoCContatextBox.Text == "")
@@ -64,44 +36,40 @@ namespace Banco
             {
                 if (correnteradioButton.Checked)
                 {
-
-                    conta = new Corrente();              
-                    clientes.ForEach(item =>
-                    {
-                        if (item.Cpf == titularCContatextBox.Text)  
-                        MessageBox.Show("CPF Invalido!");                          
-                    
-                        else
-                        conta.Titular = titularCContatextBox.Text;
-                        conta.Numero = Convert.ToInt16(numeroCContatextBox.Text);
-                        conta.Saldo = Convert.ToDouble(saldoCContatextBox.Text);                       
-                        contas.Add(conta);
-                        AddTableConta();
-                        MessageBox.Show("Conta Corrente Criada com Sucesso!");
-                    });
-                   
-                    ClearFull();
-                }
-
-                else if (poupancaradioButton.Checked)
-                {
-                    conta = new Poupanca();
-                    clientes.ForEach(item =>
+                    CommandSQL.conta = new Corrente();
+                    CommandSQL.clientes.ForEach(item =>
                     {
                         if (item.Cpf == titularCContatextBox.Text)
-                            MessageBox.Show("CPF Invalido!");
+                        {
 
-                        else
-                        conta.Titular = titularCContatextBox.Text;
-                        conta.Numero = Convert.ToInt16(numeroCContatextBox.Text);
-                        conta.Saldo = Convert.ToDouble(saldoCContatextBox.Text);                      
-                        contas.Add(conta);
-                        AddTableConta();
-                        MessageBox.Show("Conta Corrente Criada com Sucesso!");
+                            CommandSQL.conta.Titular = titularCContatextBox.Text;
+                            CommandSQL.conta.Numero = Convert.ToInt16(numeroCContatextBox.Text);
+                            CommandSQL.conta.Saldo = Convert.ToDouble(saldoCContatextBox.Text);
+                            CommandSQL.contas.Add(CommandSQL.conta);
+                            CommandSQL.InsertConta();
+                            ClearFull();
+                            MessageBox.Show("Conta Corrente Criada com Sucesso!");
+                        }
                     });
 
                     ClearFull();
-
+                }
+                else if (poupancaradioButton.Checked)
+                {
+                    CommandSQL.conta = new Poupanca();
+                    CommandSQL.clientes.ForEach(item =>
+                    {
+                        if (item.Cpf == titularCContatextBox.Text)
+                        { 
+                        CommandSQL.conta.Titular = titularCContatextBox.Text;
+                        CommandSQL.conta.Numero = Convert.ToInt16(numeroCContatextBox.Text);
+                        CommandSQL.conta.Saldo = Convert.ToDouble(saldoCContatextBox.Text);
+                        CommandSQL.contas.Add(CommandSQL.conta);
+                        CommandSQL.InsertConta();
+                        ClearFull();
+                        MessageBox.Show("Conta Corrente Criada com Sucesso!");
+                    }
+                    });
                 }
                 else
                 {
@@ -110,17 +78,13 @@ namespace Banco
             }
         }
 
-        private void AddTableConta()
+        private void contasbutton_Click(object sender, EventArgs e)
         {
-            var conn = Conectar();
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = "INSERT INTO CONTA (IDTITULAR,NUMERO,SALDO) VALUES (@IDTITULAR,@NUMERO,@SALDO)";
-            cmd.Parameters.Add(new SqlParameter("@IDTITULAR", conta.Titular));
-            cmd.Parameters.Add(new SqlParameter("@NUMERO", conta.Numero));
-            cmd.Parameters.Add(new SqlParameter("@SALDO", conta.Saldo));
-            cmd.ExecuteNonQuery();
-            ClearFull();
+            string nomes = "";
+            //string saldos = "";
+            foreach (Conta c in CommandSQL.contas)
+                nomes += c.Titular + " " + c.Saldo + "\n";
+            MessageBox.Show(nomes);
         }
     }
-    
 }

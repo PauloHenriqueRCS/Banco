@@ -124,9 +124,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button cadastrocHomebutton;
         private System.Windows.Forms.Button loginHomebutton;
-        private System.Windows.Forms.TextBox nomeHometextBox;
         private System.Windows.Forms.Label cpfHomelabel;
         private System.Windows.Forms.Label nomeHomelabel;
         public System.Windows.Forms.TextBox cpfHometextBox;
+        public System.Windows.Forms.TextBox nomeHometextBox;
     }
 }

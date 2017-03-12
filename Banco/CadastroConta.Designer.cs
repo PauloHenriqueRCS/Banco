@@ -39,11 +39,13 @@
             this.numeroCContatextBox = new System.Windows.Forms.TextBox();
             this.numeroCContaLabel = new System.Windows.Forms.Label();
             this.saldoCContatextBox = new System.Windows.Forms.TextBox();
+            this.contasbutton = new System.Windows.Forms.Button();
             this.cadastroCOntagroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // cadastroCOntagroupBox
             // 
+            this.cadastroCOntagroupBox.Controls.Add(this.contasbutton);
             this.cadastroCOntagroupBox.Controls.Add(this.tipolabel);
             this.cadastroCOntagroupBox.Controls.Add(this.correnteradioButton);
             this.cadastroCOntagroupBox.Controls.Add(this.poupancaradioButton);
@@ -150,6 +152,16 @@
             this.saldoCContatextBox.Size = new System.Drawing.Size(100, 20);
             this.saldoCContatextBox.TabIndex = 16;
             // 
+            // contasbutton
+            // 
+            this.contasbutton.Location = new System.Drawing.Point(6, 161);
+            this.contasbutton.Name = "contasbutton";
+            this.contasbutton.Size = new System.Drawing.Size(33, 23);
+            this.contasbutton.TabIndex = 28;
+            this.contasbutton.Text = "VC";
+            this.contasbutton.UseVisualStyleBackColor = true;
+            this.contasbutton.Click += new System.EventHandler(this.contasbutton_Click);
+            // 
             // CadastroConta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,5 +190,6 @@
         private System.Windows.Forms.TextBox numeroCContatextBox;
         private System.Windows.Forms.Label numeroCContaLabel;
         private System.Windows.Forms.TextBox saldoCContatextBox;
+        private System.Windows.Forms.Button contasbutton;
     }
 }

@@ -80,6 +80,7 @@
             this.novaContabutton.TabIndex = 24;
             this.novaContabutton.Text = "Nova Conta";
             this.novaContabutton.UseVisualStyleBackColor = true;
+            this.novaContabutton.Click += new System.EventHandler(this.novaContabutton_Click);
             // 
             // sacabutton
             // 
@@ -183,7 +184,7 @@
         private System.Windows.Forms.Label titularContaLabel;
         private System.Windows.Forms.TextBox valorContatextbox;
         private System.Windows.Forms.TextBox saldoContatextbox;
-        private System.Windows.Forms.TextBox titularContatextbox;
         private System.Windows.Forms.ComboBox numerocomboBox;
+        public System.Windows.Forms.TextBox titularContatextbox;
     }
 }

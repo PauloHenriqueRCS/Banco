@@ -16,6 +16,7 @@ namespace Banco
     {
         public int Id { get; set; }
         public string Titular { get; set; }
+        public int Tipo { get; set; }
         public short Numero { get; set; }
         public double Saldo { get; set; }
         public virtual void Saca(double valorOperacao)
